@@ -35,6 +35,7 @@ sarcasm-detector/
 ---
 
 ## 🚀 Quick Start
+'''python
 from transformers import DebertaV2Tokenizer, DebertaV2ForSequenceClassification
 import torch
 
@@ -65,7 +66,7 @@ result = predict_sarcasm(
 )
 print(result)
 # {'label': 1, 'prob_not_sarcastic': 0.04, 'prob_sarcastic': 0.96}
-
+'''
 
 ### Training (GPU Server / Vast.ai)
 
