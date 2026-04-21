@@ -1,7 +1,7 @@
 # 🎭 Sarcasm Detector — DeBERTa-v3-large
 
 Fine-tuned `microsoft/deberta-v3-large` for binary sarcasm detection on Reddit comments.  
-Achieves **~87–90% accuracy** on the balanced Reddit Sarcasm dataset.
+Achieves **~83% accuracy** on the balanced Reddit Sarcasm dataset.
 
 ---
 
@@ -35,6 +35,37 @@ sarcasm-detector/
 ---
 
 ## 🚀 Quick Start
+from transformers import DebertaV2Tokenizer, DebertaV2ForSequenceClassification
+import torch
+
+MODEL_ID = "nurizzahasan/deberta-v3-large-sarcasm"
+
+tokenizer = DebertaV2Tokenizer.from_pretrained(MODEL_ID)
+model     = DebertaV2ForSequenceClassification.from_pretrained(MODEL_ID)
+model.eval()
+
+def predict_sarcasm(comment: str, parent_comment: str = "") -> dict:
+    text = comment.strip()
+    if parent_comment.strip():
+        text = text + " [SEP] " + parent_comment.strip()
+
+    inputs = tokenizer(text, return_tensors="pt", truncation=True,
+                       max_length=256, padding="max_length")
+
+    with torch.no_grad():
+        logits = model(**inputs).logits
+
+    probs      = torch.softmax(logits, dim=-1).squeeze().tolist()
+    pred_label = int(torch.argmax(logits, dim=-1).item())
+    return {"label": pred_label, "prob_not_sarcastic": probs[0], "prob_sarcastic": probs[1]}
+
+result = predict_sarcasm(
+    "Oh yeah, because that always works out SO well.",
+    "Just ignore them and they'll stop bullying you."
+)
+print(result)
+# {'label': 1, 'prob_not_sarcastic': 0.04, 'prob_sarcastic': 0.96}
+
 
 ### Training (GPU Server / Vast.ai)
 
