@@ -1,7 +1,7 @@
 # 🎭 Sarcasm Detector — DeBERTa-v3-large
 
 Fine-tuned `microsoft/deberta-v3-large` for binary sarcasm detection on Reddit comments.  
-Achieves **~87–90% accuracy** on the balanced Reddit Sarcasm dataset.
+Achieves **~83% accuracy** on the balanced Reddit Sarcasm dataset.
 
 [![Hugging Face](https://img.shields.io/badge/🤗%20Model%20Weights-nurizzahasan%2Fdeberta--v3--large--sarcasm-blue)](https://huggingface.co/nurizzahasan/deberta-v3-large-sarcasm)
 
